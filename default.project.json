@@ -1,0 +1,87 @@
+{
+	"name": "roblox-ts-plugin",
+	"globIgnorePaths": [
+		"**/package.json",
+		"**/tsconfig.json",
+		"**/process-actor",
+		"**/*.spec.lua"
+	],
+	"tree": {
+		"$className": "Folder",
+		"plugin": {
+			"$path": "out/plugin.server.lua"
+		},
+		"config": {
+			"$path": "out/config.lua"
+		},
+		"include": {
+			"$path": "include",
+			"node_modules": {
+				"$className": "Folder",
+				"@rbxts": {
+					"$path": "node_modules/@rbxts"
+				},
+				"@rbxutil": {
+					"$path": "node_modules/@rbxutil"
+				}
+			}
+		},
+		"frontend": {
+			"$path": "out/frontend"
+		},
+		"backend": {
+			"$path": "out/backend",
+			"actors": {
+				"$className": "Folder",
+				"process-actor-01": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-02": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-03": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-04": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-05": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-06": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-07": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-08": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-09": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-10": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-11": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-12": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-13": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-14": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-15": {
+					"$path": "out/backend/process-actor"
+				},
+				"process-actor-16": {
+					"$path": "out/backend/process-actor"
+				}
+			}
+		}
+	}
+}
