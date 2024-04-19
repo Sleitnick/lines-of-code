@@ -18,3 +18,8 @@ interface AllScriptsInfo {
 	lines: ScriptInfoLines;
 	scripts: ScriptInfo[];
 }
+
+declare const enum DisplayType {
+	Stats = "Stats",
+	Settings = "Settings",
+}
