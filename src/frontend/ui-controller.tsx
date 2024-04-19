@@ -6,8 +6,6 @@ import { config } from "config";
 import App from "./App";
 import { rootProducer } from "./store";
 
-const widgetInfo = new DockWidgetPluginGuiInfo(Enum.InitialDockState.Right, false, true, 400, 300, 300, 200);
-
 export class UIController {
 	/** Fired when user requests to close the PluginGui. */
 	public static readonly requestHide = new Signal<void>();
@@ -18,7 +16,7 @@ export class UIController {
 	/** Show the PluginGui. */
 	public static show(plugin: Plugin) {
 		if (!this.pluginGui) {
-			this.pluginGui = plugin.CreateDockWidgetPluginGui("LinesOfCode", widgetInfo);
+			this.pluginGui = plugin.CreateDockWidgetPluginGui("LinesOfCode", config.widgetInfo);
 			this.pluginGui.Name = "LinesOfCode";
 			this.pluginGui.Title = config.pluginGuiTitle;
 			this.pluginGui.ResetOnSpawn = false;

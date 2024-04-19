@@ -28,7 +28,7 @@ function localeNumberFormat(n: number) {
 	return localizationTable.GetTranslator(LocalizationService.RobloxLocaleId).FormatByKey("number", [n]).sub(1, -4);
 }
 
-export default function StatsDisplay() {
+export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 	const fgColor = useThemeColor(Enum.StudioStyleGuideColor.MainText);
 
 	const isProcessActive = useRootSelector((state) => state.process.active);
@@ -61,7 +61,7 @@ export default function StatsDisplay() {
 	}, [scrollingFrame, uiTable]);
 
 	return (
-		<Container>
+		<Container {...props}>
 			<Label Visible={loading} Size={new UDim2(1, 0, 0, 20)} TextColor3={fgColor} Text={"Loading..."} />
 			<scrollingframe
 				ref={setScrollingFrame}

@@ -12,20 +12,18 @@ const MAX_WIDTH = 900;
 function Display() {
 	const displayType = useRootSelector((state) => state.display.displayType);
 
-	switch (displayType) {
-		case DisplayType.Stats:
-			return <StatsDisplay />;
-		case DisplayType.Settings:
-			return <SettingsDisplay />;
-		default:
-			return <></>;
-	}
+	return (
+		<>
+			<StatsDisplay Visible={displayType === DisplayType.Stats} />
+			<SettingsDisplay Visible={displayType === DisplayType.Settings} />
+		</>
+	);
 }
 
 export default function App() {
 	const bgColor = useThemeColor(Enum.StudioStyleGuideColor.MainBackground);
 	const fgColor = useThemeColor(Enum.StudioStyleGuideColor.MainText);
-	const fgHoverColor = useThemeColor(Enum.StudioStyleGuideColor.MainText, Enum.StudioStyleGuideModifier.Hover);
+	const fgHoverColor = useThemeColor(Enum.StudioStyleGuideColor.LinkText);
 	const [settingsBtnHover, setSettingsBtnHover] = useBinding(false);
 
 	const producer = useRootProducer();
