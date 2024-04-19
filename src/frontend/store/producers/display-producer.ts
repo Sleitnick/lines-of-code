@@ -1,7 +1,7 @@
 import { createProducer } from "@rbxts/reflex";
 
 export interface DisplayState {
-	displayType: DisplayType;
+	readonly displayType: DisplayType;
 }
 
 export const initialDisplayState: DisplayState = {

@@ -1,4 +1,5 @@
 import React from "@rbxts/react";
+import { config } from "config";
 import { useThemeColor } from "frontend/hooks/use-theme";
 import Label from "./Label";
 import Padding from "./Padding";
@@ -34,8 +35,8 @@ export default function StatRow(props: StatRowProps) {
 						props.header
 							? Font.fromEnum(Enum.Font.BuilderSansBold)
 							: i === 0
-								? Font.fromEnum(Enum.Font.BuilderSans)
-								: Font.fromId(16658246179, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+								? config.fontRegular
+								: config.fontMono
 					}
 					LayoutOrder={i}
 					BackgroundTransparency={0}

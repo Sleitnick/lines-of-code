@@ -1,8 +1,8 @@
 import { createProducer } from "@rbxts/reflex";
 
 export interface StatsState {
-	all: AllScriptsInfo | undefined;
-	lastUpdated: number;
+	readonly all: AllScriptsInfo | undefined;
+	readonly lastUpdated: number;
 }
 
 export const initialStatsState: StatsState = {

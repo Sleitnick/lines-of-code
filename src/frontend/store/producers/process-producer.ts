@@ -1,8 +1,8 @@
 import { createProducer } from "@rbxts/reflex";
 
 export interface ProcessState {
-	active: boolean;
-	error: string | undefined;
+	readonly active: boolean;
+	readonly error: string | undefined;
 }
 
 const initialProcessState: ProcessState = {

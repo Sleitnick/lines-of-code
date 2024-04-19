@@ -17,11 +17,23 @@ export class LineCounter {
 		});
 	}
 
-	public process() {
+	public process(excludePatterns: string[]) {
 		const allScripts: LuaSourceContainer[] = [];
 		for (const ancestor of ancestors) {
 			for (const descendant of ancestor.GetDescendants()) {
 				if (!descendant.IsA("LuaSourceContainer")) continue;
+
+				// Check exclusion patterns:
+				const fullName = descendant.GetFullName();
+				let exclude = false;
+				for (const excludePattern of excludePatterns) {
+					if (fullName.match(excludePattern)[0] !== undefined) {
+						exclude = true;
+						break;
+					}
+				}
+				if (exclude) continue;
+
 				allScripts.push(descendant);
 			}
 		}
