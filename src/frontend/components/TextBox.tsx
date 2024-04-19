@@ -1,11 +1,11 @@
-import React from "@rbxts/react";
+import React, { forwardRef } from "@rbxts/react";
 import { config } from "config";
 import { useThemeColor } from "frontend/hooks/use-theme";
 import Padding from "./Padding";
 
 interface TextBoxProps extends React.InstanceProps<TextBox> {}
 
-export default function TextBox(props: TextBoxProps) {
+export = forwardRef((props: TextBoxProps, ref: React.Ref<TextBox>) => {
 	const children = props.children;
 	delete props.children;
 
@@ -19,6 +19,7 @@ export default function TextBox(props: TextBoxProps) {
 
 	return (
 		<textbox
+			ref={ref}
 			ClearTextOnFocus={false}
 			BackgroundColor3={bgColor}
 			TextColor3={textColor}
@@ -34,4 +35,4 @@ export default function TextBox(props: TextBoxProps) {
 			{children}
 		</textbox>
 	);
-}
+});

@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "@rbxts/react";
 import { LocalizationService } from "@rbxts/services";
 import Container from "frontend/components/Container";
-import Label from "frontend/components/Label";
 import StatRow from "frontend/components/StatRow";
 import { ScriptData, useStats } from "frontend/hooks/use-stats";
-import { useThemeColor } from "frontend/hooks/use-theme";
-import { useRootSelector } from "frontend/store";
 import { localizationTable } from "frontend/util/locale";
 
 const MIN_WIDTH = 600;
 
 function columns(label: string, data: ScriptData | undefined) {
 	if (!data) {
-		return [label, "0", "0", "0", "0", "0"];
+		return [label, "...", "...", "...", "...", "..."];
 	}
 	return [
 		label,
@@ -29,13 +26,6 @@ function localeNumberFormat(n: number) {
 }
 
 export default function StatsDisplay(props: React.InstanceProps<Frame>) {
-	const fgColor = useThemeColor(Enum.StudioStyleGuideColor.MainText);
-
-	const isProcessActive = useRootSelector((state) => state.process.active);
-	const stats = useRootSelector((state) => state.stats.all);
-
-	const loading = isProcessActive || !stats;
-
 	const scriptData = useStats();
 
 	const [scrollingFrame, setScrollingFrame] = useState<ScrollingFrame>();
@@ -62,10 +52,8 @@ export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 
 	return (
 		<Container {...props}>
-			<Label Visible={loading} Size={new UDim2(1, 0, 0, 20)} TextColor3={fgColor} Text={"Loading..."} />
 			<scrollingframe
 				ref={setScrollingFrame}
-				Visible={!loading}
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundTransparency={1}
 				BorderSizePixel={0}
