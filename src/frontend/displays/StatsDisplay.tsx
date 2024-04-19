@@ -1,4 +1,4 @@
-import React from "@rbxts/react";
+import React, { useEffect, useState } from "@rbxts/react";
 import { LocalizationService } from "@rbxts/services";
 import Container from "frontend/components/Container";
 import Label from "frontend/components/Label";
@@ -7,6 +7,8 @@ import { ScriptData, useStats } from "frontend/hooks/use-stats";
 import { useThemeColor } from "frontend/hooks/use-theme";
 import { useRootSelector } from "frontend/store";
 import { localizationTable } from "frontend/util/locale";
+
+const MIN_WIDTH = 600;
 
 function columns(label: string, data: ScriptData | undefined) {
 	if (!data) {
@@ -27,7 +29,6 @@ function localeNumberFormat(n: number) {
 }
 
 export default function StatsDisplay() {
-	const bgColor = useThemeColor(Enum.StudioStyleGuideColor.MainBackground);
 	const fgColor = useThemeColor(Enum.StudioStyleGuideColor.MainText);
 
 	const isProcessActive = useRootSelector((state) => state.process.active);
@@ -37,11 +38,41 @@ export default function StatsDisplay() {
 
 	const scriptData = useStats();
 
+	const [scrollingFrame, setScrollingFrame] = useState<ScrollingFrame>();
+	const [uiTable, setUiTable] = useState<UITableLayout>();
+
+	useEffect(() => {
+		if (!scrollingFrame || !uiTable) return;
+
+		const onSizeChanged = () => {
+			const size = uiTable.AbsoluteContentSize;
+			if (size.X <= MIN_WIDTH) {
+				scrollingFrame.CanvasSize = UDim2.fromOffset(MIN_WIDTH, 0);
+			} else {
+				scrollingFrame.CanvasSize = UDim2.fromScale(1, 1);
+			}
+		};
+
+		onSizeChanged();
+		const conn = uiTable.GetPropertyChangedSignal("AbsoluteContentSize").Connect(onSizeChanged);
+		return () => {
+			conn.Disconnect();
+		};
+	}, [scrollingFrame, uiTable]);
+
 	return (
 		<Container>
 			<Label Visible={loading} Size={new UDim2(1, 0, 0, 20)} TextColor3={fgColor} Text={"Loading..."} />
-			<frame Size={UDim2.fromScale(1, 1)} BackgroundTransparency={1} Visible={!loading}>
+			<scrollingframe
+				ref={setScrollingFrame}
+				Visible={!loading}
+				Size={UDim2.fromScale(1, 1)}
+				BackgroundTransparency={1}
+				BorderSizePixel={0}
+				ScrollBarThickness={8}
+			>
 				<uitablelayout
+					ref={setUiTable}
 					FillDirection={Enum.FillDirection.Vertical}
 					SortOrder={Enum.SortOrder.LayoutOrder}
 					FillEmptySpaceColumns={true}
@@ -90,7 +121,7 @@ export default function StatsDisplay() {
 					BackgroundTransparency={1}
 					columnValues={columns("Total", scriptData?.Total)}
 				/>
-			</frame>
+			</scrollingframe>
 		</Container>
 	);
 }
