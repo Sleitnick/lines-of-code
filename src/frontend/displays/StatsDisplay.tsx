@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "@rbxts/react";
+import React, { useBinding, useEffect, useState } from "@rbxts/react";
 import { LocalizationService } from "@rbxts/services";
 import Container from "frontend/components/Container";
 import StatRow from "frontend/components/StatRow";
@@ -28,18 +28,18 @@ function localeNumberFormat(n: number) {
 export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 	const scriptData = useStats();
 
-	const [scrollingFrame, setScrollingFrame] = useState<ScrollingFrame>();
 	const [uiTable, setUiTable] = useState<UITableLayout>();
+	const [canvasSize, setCanvasSize] = useBinding(UDim2.fromOffset(0, 0));
 
 	useEffect(() => {
-		if (!scrollingFrame || !uiTable) return;
+		if (!uiTable) return;
 
 		const onSizeChanged = () => {
 			const size = uiTable.AbsoluteContentSize;
 			if (size.X <= MIN_WIDTH) {
-				scrollingFrame.CanvasSize = UDim2.fromOffset(MIN_WIDTH, 0);
+				setCanvasSize(UDim2.fromOffset(MIN_WIDTH, 0));
 			} else {
-				scrollingFrame.CanvasSize = UDim2.fromScale(1, 1);
+				setCanvasSize(UDim2.fromScale(1, 1));
 			}
 		};
 
@@ -48,16 +48,16 @@ export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 		return () => {
 			conn.Disconnect();
 		};
-	}, [scrollingFrame, uiTable]);
+	}, [uiTable]);
 
 	return (
 		<Container {...props}>
 			<scrollingframe
-				ref={setScrollingFrame}
 				Size={UDim2.fromScale(1, 1)}
 				BackgroundTransparency={1}
 				BorderSizePixel={0}
 				ScrollBarThickness={8}
+				CanvasSize={canvasSize}
 			>
 				<uitablelayout
 					ref={setUiTable}

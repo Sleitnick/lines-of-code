@@ -4,12 +4,16 @@ export interface SettingsState {
 
 const KEY = "LinesOfCodePluginSettings";
 
+function getKey() {
+	return `${KEY}_${game.GameId}`;
+}
+
 export const initialSettingsState: SettingsState = {
 	exclusionPatterns: [],
 };
 
 export function loadSettings(plugin: Plugin): SettingsState {
-	const loadedSettings = plugin.GetSetting(KEY);
+	const loadedSettings = plugin.GetSetting(getKey());
 
 	if (typeIs(loadedSettings, "table")) {
 		const reconciled = {
@@ -35,5 +39,5 @@ export function loadSettings(plugin: Plugin): SettingsState {
 }
 
 export function saveSettings(plugin: Plugin, settingsState: SettingsState) {
-	plugin.SetSetting(KEY, settingsState);
+	plugin.SetSetting(getKey(), settingsState);
 }

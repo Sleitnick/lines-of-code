@@ -38,6 +38,7 @@ function turnOn() {
 	isOn = true;
 	button.SetActive(true);
 	rootProducer.settingsSetAll(loadSettings(plugin));
+	rootProducer.displaySetType(DisplayType.Stats);
 	UIController.show(plugin);
 
 	// Save settings when settings change:

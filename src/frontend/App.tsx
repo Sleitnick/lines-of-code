@@ -63,6 +63,7 @@ export default function App() {
 							Activated: () => {
 								if (producer.getState().display.displayType === DisplayType.Settings) {
 									producer.displaySetType(DisplayType.Stats);
+									producer.settingsRemoveEmptyExclusionPatterns();
 								} else {
 									producer.displaySetType(DisplayType.Settings);
 								}

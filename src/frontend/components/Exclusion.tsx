@@ -45,7 +45,7 @@ export default function Exclusion(props: ExclusionProps) {
 			<uisizeconstraint MaxSize={new Vector2(500, math.huge)} />
 			<TextBox
 				ref={setTextBox}
-				Size={new UDim2(1, -70, 1, 0)}
+				Size={new UDim2(1, -30, 1, 0)}
 				FontFace={config.fontMono}
 				Text={props.pattern}
 				TextTruncate={Enum.TextTruncate.AtEnd}
@@ -64,10 +64,13 @@ export default function Exclusion(props: ExclusionProps) {
 				}}
 			/>
 			<Button
-				Size={new UDim2(0, 60, 1, 0)}
+				Size={UDim2.fromScale(1, 1)}
+				SizeConstraint={Enum.SizeConstraint.RelativeYY}
 				Position={UDim2.fromScale(1, 0)}
 				AnchorPoint={new Vector2(1, 0)}
-				Text={"Delete"}
+				Text={""}
+				icon={"rbxassetid://5516413280"}
+				iconSize={UDim2.fromOffset(16, 16)}
 				Event={{
 					Activated: () => {
 						producer.settingsRemoveExclusionPattern(props.index);
