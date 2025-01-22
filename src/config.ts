@@ -3,7 +3,7 @@ export const config = {
 
 	pluginButtonId: "Lines of Code",
 	pluginButtonTooltip: "View lines of code within your experience",
-	pluginButtonIcon: "rbxassetid://98550895889129",
+	pluginButtonIcon: "rbxassetid://91634687315875",
 
 	pluginGuiTitle: "Lines of Code",
 	widgetInfo: new DockWidgetPluginGuiInfo(Enum.InitialDockState.Right, false, true, 600, 300, 300, 200),
