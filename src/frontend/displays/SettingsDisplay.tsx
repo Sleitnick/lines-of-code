@@ -1,6 +1,7 @@
 import React, { useBinding, useEffect, useState } from "@rbxts/react";
 import { config } from "config";
 import Button from "frontend/components/Button";
+import Checkbox from "frontend/components/Checkbox";
 import Container from "frontend/components/Container";
 import Exclusion from "frontend/components/Exclusion";
 import Label from "frontend/components/Label";
@@ -71,17 +72,31 @@ function IgnorePatternsList(props: React.InstanceProps<Frame>) {
 }
 
 export default function SettingsDisplay(props: React.InstanceProps<Frame>) {
+	const producer = useRootProducer();
+
+	const ignoreDuplicates = useRootSelector((state) => state.settings.ignoreDuplicates);
+
 	return (
 		<Container {...props}>
+			<Checkbox
+				Size={new UDim2(1, 0, 0, 16)}
+				Position={new UDim2(0, 0, 0, 0)}
+				label={"Ignore Duplicates"}
+				checked={ignoreDuplicates}
+				toggled={() => {
+					producer.settingsSetIgnoreDuplicates(!ignoreDuplicates);
+				}}
+			/>
 			<Label
 				Size={new UDim2(1, 0, 0, 16)}
+				Position={new UDim2(0, 0, 0, 25)}
 				TextXAlignment={Enum.TextXAlignment.Left}
 				Text={"Ignore Patterns:"}
 				FontFace={config.fontRegularBold}
 			/>
 			<IgnorePatternsList
 				Size={new UDim2(1, 0, 1, -60)}
-				Position={new UDim2(0, 0, 0, 25)}
+				Position={new UDim2(0, 0, 0, 50)}
 				BackgroundTransparency={1}
 			/>
 			<Label
@@ -89,7 +104,7 @@ export default function SettingsDisplay(props: React.InstanceProps<Frame>) {
 				Position={UDim2.fromScale(0, 1)}
 				AnchorPoint={new Vector2(0, 1)}
 				TextXAlignment={Enum.TextXAlignment.Left}
-				Text={"Any Lua string pattern can be used"}
+				Text={"Any Luau string pattern can be used"}
 			/>
 		</Container>
 	);

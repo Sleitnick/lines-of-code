@@ -1,5 +1,6 @@
 export interface SettingsState {
 	readonly exclusionPatterns: string[];
+	readonly ignoreDuplicates: boolean;
 }
 
 const KEY = "LinesOfCodePluginSettings";
@@ -10,6 +11,7 @@ function getKey() {
 
 export const initialSettingsState: SettingsState = {
 	exclusionPatterns: [],
+	ignoreDuplicates: false,
 };
 
 export function loadSettings(plugin: Plugin): SettingsState {

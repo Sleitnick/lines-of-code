@@ -24,14 +24,6 @@ export class UIController {
 			this.pluginGui.BindToClose(() => {
 				this.requestHide.Fire();
 			});
-
-			this.pluginGui.PluginDragEntered.Connect((dragData) => {
-				print("DRAG_ENTERED", dragData);
-			});
-
-			this.pluginGui.PluginDragDropped.Connect((dragData) => {
-				print("DRAG_DROPPED", dragData);
-			});
 		}
 
 		if (!this.root) {

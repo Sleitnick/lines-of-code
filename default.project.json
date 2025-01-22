@@ -9,10 +9,10 @@
 	"tree": {
 		"$className": "Folder",
 		"plugin": {
-			"$path": "out/plugin.server.lua"
+			"$path": "out/plugin.server.luau"
 		},
 		"config": {
-			"$path": "out/config.lua"
+			"$path": "out/config.luau"
 		},
 		"include": {
 			"$path": "include",

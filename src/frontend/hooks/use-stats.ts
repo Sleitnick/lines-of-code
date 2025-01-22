@@ -11,6 +11,7 @@ interface Data {
 	ScriptLegacy: ScriptData;
 	ScriptServer: ScriptData;
 	ScriptClient: ScriptData;
+	ScriptPlugin: ScriptData;
 	LocalScript: ScriptData;
 	ModuleScript: ScriptData;
 }
@@ -44,6 +45,7 @@ export function useStats() {
 		const scriptDataLegacy = createScriptData();
 		const scriptDataServer = createScriptData();
 		const scriptDataClient = createScriptData();
+		const scriptDataPlugin = createScriptData();
 		const scriptDataLocalScript = createScriptData();
 		const scriptDataModuleScript = createScriptData();
 
@@ -69,6 +71,11 @@ export function useStats() {
 							addLines(scriptDataClient.lines, info.lines);
 							break;
 						}
+						case Enum.RunContext.Plugin: {
+							scriptDataPlugin.count += 1;
+							addLines(scriptDataPlugin.lines, info.lines);
+							break;
+						}
 					}
 					break;
 				}
@@ -90,6 +97,7 @@ export function useStats() {
 			ScriptLegacy: scriptDataLegacy,
 			ScriptServer: scriptDataServer,
 			ScriptClient: scriptDataClient,
+			ScriptPlugin: scriptDataPlugin,
 			LocalScript: scriptDataLocalScript,
 			ModuleScript: scriptDataModuleScript,
 		};

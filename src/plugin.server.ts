@@ -15,11 +15,13 @@ const lineCounter = new LineCounter();
 let isOn = false;
 
 function refreshStats() {
-	if (rootProducer.getState().process.active) return Promise.resolve();
+	const state = rootProducer.getState();
+
+	if (state.process.active) return Promise.resolve();
 	rootProducer.processSetActive(true);
 
 	return lineCounter
-		.process(rootProducer.getState().settings.exclusionPatterns)
+		.process(state.settings.exclusionPatterns, state.settings.ignoreDuplicates)
 		.then((allScriptsInfo) => {
 			rootProducer.processClearError();
 			rootProducer.statsSetAll(allScriptsInfo);

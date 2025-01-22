@@ -24,7 +24,7 @@ export default function StatRow(props: StatRowProps) {
 
 	return (
 		<frame {...frameProps}>
-			<uisizeconstraint MaxSize={new Vector2(math.huge, 24)} />
+			<uisizeconstraint MaxSize={new Vector2(math.huge, 24)} MinSize={new Vector2(0, 24)} />
 			{(props.columnValues ?? []).map((value, i) => (
 				<Label
 					Size={UDim2.fromScale(0.1, 1)}

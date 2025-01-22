@@ -13,12 +13,13 @@ export class LineCounter {
 
 		this.trove.connect(ScriptEditorService.TextDocumentDidChange, (document, changes) => {
 			if (document.IsCommandBar()) return;
-			// TODO
+			// TODO: Recount? Does this fire for every keystroke essentially?
 		});
 	}
 
-	public process(excludePatterns: string[]) {
-		const allScripts: LuaSourceContainer[] = [];
+	public async process(excludePatterns: string[], ignoreDuplicates: boolean) {
+		let allScripts: LuaSourceContainer[] = [];
+
 		for (const ancestor of ancestors) {
 			for (const descendant of ancestor.GetDescendants()) {
 				if (!descendant.IsA("LuaSourceContainer")) continue;
@@ -38,7 +39,11 @@ export class LineCounter {
 			}
 		}
 
-		return this.processDispatcher.process(allScripts);
+		if (ignoreDuplicates) {
+			allScripts = await this.processDispatcher.filterDuplicates(allScripts);
+		}
+
+		return await this.processDispatcher.process(allScripts);
 	}
 
 	public destroy() {

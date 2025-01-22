@@ -2,10 +2,11 @@ import React from "@rbxts/react";
 import { config } from "config";
 import { useThemeColor } from "frontend/hooks/use-theme";
 
-export default function Label(props: React.InstanceProps<TextLabel>) {
+export default React.forwardRef((props: React.InstanceProps<TextLabel>, ref: React.Ref<TextLabel>) => {
 	const defaultTextColor = useThemeColor(Enum.StudioStyleGuideColor.MainText);
 	return (
 		<textlabel
+			ref={ref}
 			BackgroundTransparency={1}
 			FontFace={config.fontRegular}
 			TextScaled={true}
@@ -13,4 +14,4 @@ export default function Label(props: React.InstanceProps<TextLabel>) {
 			{...props}
 		/>
 	);
-}
+});

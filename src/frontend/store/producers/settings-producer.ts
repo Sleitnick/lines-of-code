@@ -6,6 +6,11 @@ function isStringEmptyIgnoreWhitespace(str: string) {
 }
 
 export const settingsProducer = createProducer(initialSettingsState, {
+	settingsSetIgnoreDuplicates: (state, ignoreDuplicates: boolean) => ({
+		...state,
+		ignoreDuplicates,
+	}),
+
 	settingsAddExclusionPattern: (state, exclusionPattern: string) => ({
 		...state,
 		exclusionPatterns: [...state.exclusionPatterns, exclusionPattern],

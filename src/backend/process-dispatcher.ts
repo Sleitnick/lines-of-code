@@ -8,13 +8,49 @@ const MAX_PROCESS_TIME_BEFORE_YIELD = 10 / 1000;
 export class ProcessDispatcher {
 	private destroyed = false;
 
-	/** Process the given scripts. */
-	public async process(scripts: LuaSourceContainer[]) {
-		const actorPool: Actor[] = [];
-		for (const actor of script.Parent!.WaitForChild("actors").GetChildren()) {
+	private getAllActors() {
+		const children = script.Parent!.WaitForChild("actors").GetChildren();
+		const actorPool: Actor[] = table.create(children.size());
+		for (const actor of children) {
 			if (!actor.IsA("Actor")) continue;
 			actorPool.push(actor);
 		}
+		return actorPool;
+	}
+
+	public async filterDuplicates(scripts: LuaSourceContainer[]): Promise<LuaSourceContainer[]> {
+		const actorPool = this.getAllActors();
+		const actor = actorPool[math.random(0, actorPool.size() - 1)];
+
+		return new Promise((resolve, reject, onCancel) => {
+			const id = HttpService.GenerateGUID(false);
+
+			const timeoutThread = task.delay(5, () => {
+				completeConn.Disconnect();
+				reject("timed out");
+			});
+
+			const complete = actor.FindFirstChild("complete") as BindableEvent;
+			const completeConn = complete.Event.Connect((completeId: string, filteredScripts: LuaSourceContainer[]) => {
+				if (completeId !== id) return;
+				completeConn.Disconnect();
+
+				task.cancel(timeoutThread);
+
+				resolve(filteredScripts);
+			});
+
+			actor.SendMessage("FilterDuplicates", id, scripts);
+
+			onCancel(() => {
+				completeConn.Disconnect();
+			});
+		});
+	}
+
+	/** Process the given scripts. */
+	public async process(scripts: LuaSourceContainer[]) {
+		const actorPool = this.getAllActors();
 
 		const sharedTable = new SharedTable();
 		scripts = table.clone(scripts);
@@ -73,6 +109,7 @@ export class ProcessDispatcher {
 				const completeConn = complete.Event.Connect((completeId: string) => {
 					if (completeId !== id) return;
 					completeConn.Disconnect();
+
 					if (this.destroyed) {
 						// actor.Destroy();
 					} else if (coroutine.status(thread) === "suspended" && !awaitingEnd && !waitingForProcessTime) {
@@ -83,6 +120,7 @@ export class ProcessDispatcher {
 
 					const timeoutThread = task.delay(5, () => {
 						task.cancel(waitForDataThread);
+						reject("Timed out");
 					});
 
 					const waitForDataThread = task.spawn(() => {
@@ -93,7 +131,8 @@ export class ProcessDispatcher {
 						}
 						task.cancel(timeoutThread);
 						for (const i of $range(0, processScripts.size() - 1)) {
-							scriptData.scripts.push(data[i] as unknown as ScriptInfo);
+							// NOTE the +1 here: roblox-ts doesn't properly add this for SharedTables, so it must be done manually:
+							scriptData.scripts.push(data[i + 1] as unknown as ScriptInfo);
 						}
 						tasksDone += 1;
 						if (

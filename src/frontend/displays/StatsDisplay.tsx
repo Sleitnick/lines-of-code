@@ -37,9 +37,9 @@ export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 		const onSizeChanged = () => {
 			const size = uiTable.AbsoluteContentSize;
 			if (size.X <= MIN_WIDTH) {
-				setCanvasSize(UDim2.fromOffset(MIN_WIDTH, 0));
+				setCanvasSize(UDim2.fromOffset(MIN_WIDTH, size.Y));
 			} else {
-				setCanvasSize(UDim2.fromScale(1, 1));
+				setCanvasSize(new UDim2(1, 0, 0, size.Y));
 			}
 		};
 
@@ -58,13 +58,14 @@ export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 				BorderSizePixel={0}
 				ScrollBarThickness={8}
 				CanvasSize={canvasSize}
+				VerticalScrollBarInset={Enum.ScrollBarInset.Always}
 			>
 				<uitablelayout
 					ref={setUiTable}
 					FillDirection={Enum.FillDirection.Vertical}
 					SortOrder={Enum.SortOrder.LayoutOrder}
 					FillEmptySpaceColumns={true}
-					FillEmptySpaceRows={true}
+					FillEmptySpaceRows={false}
 				/>
 				<StatRow
 					Size={new UDim2(1, 0, 0, 16)}
@@ -95,17 +96,23 @@ export default function StatsDisplay(props: React.InstanceProps<Frame>) {
 					Size={new UDim2(1, 0, 0, 16)}
 					LayoutOrder={5}
 					BackgroundTransparency={1}
-					columnValues={columns("LocalScript", scriptData?.LocalScript)}
+					columnValues={columns("Script (Plugin)", scriptData?.ScriptPlugin)}
 				/>
 				<StatRow
 					Size={new UDim2(1, 0, 0, 16)}
 					LayoutOrder={6}
 					BackgroundTransparency={1}
-					columnValues={columns("ModuleScript", scriptData?.ModuleScript)}
+					columnValues={columns("LocalScript", scriptData?.LocalScript)}
 				/>
 				<StatRow
 					Size={new UDim2(1, 0, 0, 16)}
 					LayoutOrder={7}
+					BackgroundTransparency={1}
+					columnValues={columns("ModuleScript", scriptData?.ModuleScript)}
+				/>
+				<StatRow
+					Size={new UDim2(1, 0, 0, 16)}
+					LayoutOrder={8}
 					BackgroundTransparency={1}
 					columnValues={columns("Total", scriptData?.Total)}
 				/>
