@@ -6,9 +6,10 @@ const ScriptEditorService = game.GetService("ScriptEditorService");
 
 export class LineCounter {
 	private readonly trove = new Trove();
-	private readonly processDispatcher = new ProcessDispatcher();
+	private readonly processDispatcher;
 
 	constructor() {
+		this.processDispatcher = new ProcessDispatcher();
 		this.trove.add(this.processDispatcher);
 
 		this.trove.connect(ScriptEditorService.TextDocumentDidChange, (document, changes) => {

@@ -6,10 +6,20 @@ const MAX_SCRIPTS_PER_ACTOR = 10;
 const MAX_PROCESS_TIME_BEFORE_YIELD = 10 / 1000;
 
 export class ProcessDispatcher {
+	private readonly actorsFolder: Instance;
+
 	private destroyed = false;
 
+	constructor() {
+		this.actorsFolder = script.Parent!.WaitForChild("actors");
+		for (const actor of this.actorsFolder.GetChildren()) {
+			const actorScript = actor.FindFirstChild("actor") as Script;
+			actorScript.Enabled = true;
+		}
+	}
+
 	private getAllActors() {
-		const children = script.Parent!.WaitForChild("actors").GetChildren();
+		const children = this.actorsFolder.GetChildren();
 		const actorPool: Actor[] = table.create(children.size());
 		for (const actor of children) {
 			if (!actor.IsA("Actor")) continue;

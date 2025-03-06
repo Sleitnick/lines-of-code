@@ -13,8 +13,7 @@ export class UIController {
 	private static pluginGui: PluginGui | undefined;
 	private static root: ReactRoblox.Root | undefined;
 
-	/** Show the PluginGui. */
-	public static show(plugin: Plugin) {
+	public static getPluginGui(plugin: Plugin) {
 		if (!this.pluginGui) {
 			this.pluginGui = plugin.CreateDockWidgetPluginGui("LinesOfCode", config.widgetInfo);
 			this.pluginGui.Name = "LinesOfCode";
@@ -26,6 +25,13 @@ export class UIController {
 			});
 		}
 
+		return this.pluginGui;
+	}
+
+	/** Show the PluginGui. */
+	public static show(plugin: Plugin) {
+		const pluginGui = this.getPluginGui(plugin);
+
 		if (!this.root) {
 			this.root = createRoot(new Instance("Folder"));
 			this.root.render(
@@ -34,13 +40,13 @@ export class UIController {
 						<ReflexProvider producer={rootProducer}>
 							<App />
 						</ReflexProvider>,
-						this.pluginGui,
+						pluginGui,
 					)}
 				</StrictMode>,
 			);
 		}
 
-		this.pluginGui.Enabled = true;
+		pluginGui.Enabled = true;
 	}
 
 	/** Hide the PluginGui. */

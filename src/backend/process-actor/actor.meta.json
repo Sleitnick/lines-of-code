@@ -1,6 +1,6 @@
 {
 	"properties": {
-		"Enabled": true,
+		"Enabled": false,
 		"RunContext": "Plugin"
 	}
 }
